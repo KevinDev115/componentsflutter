@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:componentsflutter/src/providers/menu_provider.dart';
+import 'package:componentsflutter/src/utils/icon_string_util.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -13,21 +14,32 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _list() {
-    print(menuProvider.options);
-
-    return ListView(
-      children: _createItems(),
+    // menuProvider.loadData()
+    return FutureBuilder(
+      future: menuProvider.loadData(),
+      initialData: [],
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        return ListView(
+          children: _createItems(snapshot.data),
+        );
+      },
     );
   }
 
-  List<Widget> _createItems() {
-    return [
-      ListTile(
-        title: Text("hola Mundo"),
-      ),
-      ListTile(
-        title: Text("hola Mundo"),
-      ),
-    ];
+  List<Widget> _createItems(data) {
+    final List<Widget> options = [];
+
+    data.forEach((opt) {
+      final tmp = ListTile(
+        title: Text(opt['texto']),
+        leading: getIcon(opt['icon']),
+        trailing: Icon(Icons.keyboard_arrow_right_outlined, color: Colors.blue),
+        onTap: () {},
+      );
+
+      options..add(tmp)..add(Divider());
+    });
+
+    return options;
   }
 }
