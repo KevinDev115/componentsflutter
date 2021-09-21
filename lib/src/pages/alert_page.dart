@@ -5,7 +5,13 @@ class AlertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('aler page'),
+        title: Text('Aler'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Mostrar Alerta'),
+          onPressed: () => _showAlert(context),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.access_alarm),
@@ -14,5 +20,17 @@ class AlertPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void _showAlert(context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Title'),
+            content: Text('Content'),
+          );
+        });
   }
 }
